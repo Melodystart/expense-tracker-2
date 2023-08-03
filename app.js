@@ -8,7 +8,7 @@ const numeralHelper = require('handlebars.numeral');
 numeralHelper.registerHelpers(handlebars);
 handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 const bodyParser = require('body-parser'); //才抓得到req
-const methodOverride = require('method-override')
+const methodOverride = require('method-override') //可將方法由POST改為PUT
 const Record = require('./models/record');
 const Category = require('./models/category');
 
@@ -35,7 +35,7 @@ app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true })); //才抓得到req
 
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method')) //可將方法由POST改為PUT
 
 app.get('/', (req, res) => {
   Record.find()
@@ -77,6 +77,13 @@ app.put('/records/:id', async (req, res) => {
 
   await Record.findByIdAndUpdate(_id, { ...req.body, categoryId: findCategory._id })
     .lean()
+    .then(() => { return res.redirect('/') })
+    .catch(error => console.log(error))
+})
+
+app.delete('/records/:id', (req, res) => {
+  const _id = req.params.id
+  Record.findByIdAndDelete(_id)
     .then(() => { return res.redirect('/') })
     .catch(error => console.log(error))
 })
