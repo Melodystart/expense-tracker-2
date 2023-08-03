@@ -8,6 +8,7 @@ const numeralHelper = require('handlebars.numeral');
 numeralHelper.registerHelpers(handlebars);
 handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 const bodyParser = require('body-parser'); //才抓得到req
+const methodOverride = require('method-override')
 const Record = require('./models/record');
 const Category = require('./models/category');
 
@@ -34,6 +35,8 @@ app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true })); //才抓得到req
 
+app.use(methodOverride('_method'))
+
 app.get('/', (req, res) => {
   Record.find()
     .populate('categoryId')
@@ -53,8 +56,28 @@ app.get('/records/new', (req, res) => {
 app.post('/records', async (req, res) => {
   const { name, date, categoryName, amount } = req.body
   const findCategory = await Category.findOne({ name: categoryName }).lean()
-  return await Record.create({ name, date, amount, categoryId: findCategory._id, userId: '64ca286960148ab9e2d8ec55' })
-    .then(() => res.redirect('/'))
+  await Record.create({ name, date, amount, categoryId: findCategory._id, userId: '64ca286960148ab9e2d8ec55' })
+    .then(() => { return res.redirect('/') })
+    .catch(error => console.log(error))
+})
+
+app.get('/records/:id/edit', (req, res) => {
+  const _id = req.params.id
+  Record.findById(_id)
+    .populate('categoryId')
+    .lean()
+    .then((record) => { return res.render('edit', { record }) })
+    .catch(error => console.log(error))
+})
+
+app.put('/records/:id', async (req, res) => {
+  const _id = req.params.id
+  const categoryName = req.body.categoryName
+  const findCategory = await Category.findOne({ name: categoryName }).lean()
+
+  await Record.findByIdAndUpdate(_id, { ...req.body, categoryId: findCategory._id })
+    .lean()
+    .then(() => { return res.redirect('/') })
     .catch(error => console.log(error))
 })
 
