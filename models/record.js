@@ -13,12 +13,16 @@ const recordSchema = new Schema({
     type: Number,
     required: true
   },
-  userId: {
-    type: String,
+  userId: {  // 加入關聯設定
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
     required: true
   },
-  categoryId: {
-    type: String,
+  categoryId: {  // 加入關聯設定
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true,
     required: true
   }
 })
