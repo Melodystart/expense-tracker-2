@@ -11,7 +11,17 @@ const bodyParser = require('body-parser'); //才抓得到req
 const methodOverride = require('method-override') //可將方法由POST改為PUT
 const Record = require('./models/record');
 const Category = require('./models/category');
+const sortList = {
+  latest: { date: 'desc' },
+  amountBiggest: { amount: 'desc' },
+  amountSmallest: { amount: 'asc' }
+}
 
+// const sortNameMap = {
+//   latest: '最新',
+//   amountBiggest: '金額最大',
+//   amountSmallest: '金額最小'
+// }
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -34,17 +44,36 @@ app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs', helper
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true })); //才抓得到req
-
 app.use(methodOverride('_method')) //可將方法由POST改為PUT
 
 app.get('/', (req, res) => {
   Record.find()
     .populate('categoryId')
     .lean() // 把 Mongoose 的 Model 物件轉換成乾淨的 JavaScript 資料陣列
+    .sort({ amount: 'desc' })
     .then(records => {
       let totalAmount = 0
       records.forEach((record) => totalAmount += record.amount);
       return res.render('index', { records, totalAmount });
+    })
+    .catch(error => console.error(error))
+})
+
+app.get('/search', async (req, res) => {
+  const { sort, categoryName } = req.query
+  const findCategory = await Category.findOne({ name: categoryName }).lean()
+  let filter = {}
+  if (categoryName) {
+    filter = { ...filter, categoryId: findCategory._id }
+  }
+  await Record.find(filter)
+    .populate('categoryId')
+    .lean()
+    .sort(sortList[sort])
+    .then(records => {
+      let totalAmount = 0
+      records.forEach((record) => totalAmount += record.amount);
+      return res.render('index', { records, totalAmount, sort, categoryName });
     })
     .catch(error => console.error(error))
 })
