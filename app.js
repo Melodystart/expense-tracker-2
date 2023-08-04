@@ -29,6 +29,14 @@ app.use(methodOverride('_method')) //可將方法由POST改為PUT
 
 usePassport(app)
 
+app.use((req, res, next) => {
+  //把req的登入狀態交接給res，才能在前端樣板裡使用這些資訊
+  //req.user是在反序列化時，取出的user資訊，之後會放在req.user裡以供後續使用
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
 app.use(routes)
 
 app.listen(PORT, () => {
