@@ -12,9 +12,10 @@ router.get('/new', (req, res) => {
 router.post('/', async (req, res, next) => {
   try {
     const { name, date, categoryName, amount } = req.body
+    const userId = req.user._id
     const category = await Category.findOne({ name: categoryName }).lean()
 
-    await Record.create({ name, date, amount, categoryId: category._id, userId: '64ca286960148ab9e2d8ec55' })
+    await Record.create({ name, date, amount, categoryId: category._id, userId })
     return res.redirect('/')
 
   } catch (error) {
@@ -25,7 +26,8 @@ router.post('/', async (req, res, next) => {
 router.get('/:id/edit', async (req, res, next) => {
   try {
     const _id = req.params.id
-    const record = await Record.findById(_id).populate('categoryId').lean()
+    const userId = req.user._id
+    const record = await Record.findOne({ _id, userId }).populate('categoryId').lean()
 
     if (!record.length) { console.log("找不到資料") }
     return res.render('edit', { record })
@@ -38,10 +40,11 @@ router.get('/:id/edit', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const _id = req.params.id
+    const userId = req.user._id
     const categoryName = req.body.categoryName
 
     const category = await Category.findOne({ name: categoryName }).lean()
-    const record = await Record.findByIdAndUpdate(_id, { ...req.body, categoryId: category._id }).lean()
+    const record = await Record.findOneAndUpdate({ _id, userId }, { ...req.body, categoryId: category._id }).lean()
 
     if (!record.length) { console.log("找不到資料") }
     return res.redirect('/')
@@ -54,7 +57,8 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const _id = req.params.id
-    const record = await Record.findByIdAndDelete(_id)
+    const userId = req.user._id
+    const record = await Record.findOneAndDelete({ _id, userId })
 
     if (!record.length) { console.log("找不到資料") }
     return res.redirect('/')

@@ -17,7 +17,8 @@ const sortList = {
 
 router.get('/', async (req, res, next) => {
   try {
-    const records = await Record.find().populate('categoryId').lean().sort({ amount: 'desc' })
+    const userId = req.user._id
+    const records = await Record.find({ userId }).populate('categoryId').lean().sort({ amount: 'desc' })
 
     if (!records.length) { console.log("找不到資料") }
     let totalAmount = 0
@@ -31,7 +32,8 @@ router.get('/', async (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
   try {
-    let filter = {}
+    const userId = req.user._id
+    let filter = { userId }
     const { sort, categoryName } = req.query
     const category = await Category.findOne({ name: categoryName }).lean()
     if (categoryName) {

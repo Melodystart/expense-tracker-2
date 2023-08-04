@@ -12,10 +12,10 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-dark" style="background-color: #6a5acd;padding: 3px 16px">
+    <nav class="navbar navbar-dark" style="background-color: #6a5acd;padding: 7px 16px">
       <div class=" container-fluid">
         <a class="navbar-brand" href="/">
-          <strong>{{#if isAuthenticated}}{{ user.name}}の{{/if}}記帳本</strong>
+          <strong>{{#if isAuthenticated}}{{ user.name}} 的{{/if}}記帳本</strong>
         </a>
         {{#if isAuthenticated}}
         <a href="/users/logout" class="btn btn-outline-light">Logout</a>
