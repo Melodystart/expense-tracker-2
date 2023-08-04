@@ -33,9 +33,9 @@ db.once('open', async () => {
     await Promise.all(Array.from(Object.entries(CATEGORY), ([key, value]) => Category.create({ name: key, icon: iconUrl(value) })
     ))
     console.log('categories created!')
-    process.exit()
 
   } catch (error) {
-    console.log(error)
+    next(error)
   }
+  db.close()
 })

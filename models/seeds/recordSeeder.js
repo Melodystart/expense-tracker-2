@@ -50,9 +50,9 @@ db.once('open', async () => {
       })
     )
     console.log('users and records created!')
-    process.exit()
 
   } catch (error) {
-    console.log(error)
+    next(error)
   }
+  db.close()
 })
