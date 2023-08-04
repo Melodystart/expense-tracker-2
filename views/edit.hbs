@@ -1,5 +1,6 @@
 <div class="container" style="width: 40rem;">
   <h5 class="mt-3"><strong>請修改你的支出</strong></h5>
+  {{> message}}
   <form action="/records/{{ record._id }}?_method=PUT" method="POST">
     <div class="my-3">
       <label for="name">名稱</label>

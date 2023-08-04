@@ -15,7 +15,12 @@ router.post('/', async (req, res, next) => {
     const userId = req.user._id
     const category = await Category.findOne({ name: categoryName }).lean()
 
-    await Record.create({ name, date, amount, categoryId: category._id, userId })
+    if (!name || !date || !categoryName || !amount) {
+      req.flash('warning_msg', '所有欄位都是必填。')
+      return res.render('new', { ...req.body })
+    }
+
+    await Record.create({ ...req.body, categoryId: category._id, userId })
     return res.redirect('/')
 
   } catch (error) {
@@ -41,7 +46,12 @@ router.put('/:id', async (req, res, next) => {
   try {
     const _id = req.params.id
     const userId = req.user._id
-    const categoryName = req.body.categoryName
+    const { name, date, categoryName, amount } = req.body
+
+    if (!name || !date || !categoryName || !amount) {
+      req.flash('warning_msg', '所有欄位都是必填。')
+      return res.redirect(`./${_id}/edit`)
+    }
 
     const category = await Category.findOne({ name: categoryName }).lean()
     const record = await Record.findOneAndUpdate({ _id, userId }, { ...req.body, categoryId: category._id }).lean()
