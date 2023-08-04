@@ -3,12 +3,8 @@ const Record = require('../record')
 const Category = require('../category')
 const User = require('../user')
 const SEED_RECORD = require('../../record.json').results
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+const db = require('../../config/mongoose')
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
 const SEED_USER = [
   {
     name: '廣志',
@@ -22,10 +18,6 @@ const SEED_USER = [
     password: '12345678',
     recordLst: [3]
   }]
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
 
 db.once('open', async () => {
   try {

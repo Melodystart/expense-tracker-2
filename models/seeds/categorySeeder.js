@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Category = require('../category')
+const db = require('../../config/mongoose')
 const CATEGORY = {
   家居物業: "https://fontawesome.com/icons/home?style=solid",
   交通出行: "https://fontawesome.com/icons/shuttle-van?style=solid",
@@ -15,18 +16,6 @@ function iconUrl(url) {
   const result = "fa-" + url.slice(end + 7, url.length) + " fa-" + url.slice(start, end)
   return result
 }
-
-
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
 
 db.once('open', async () => {
   try {
