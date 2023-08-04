@@ -10,6 +10,7 @@ handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 const bodyParser = require('body-parser'); //才抓得到req
 const methodOverride = require('method-override') //可將方法由POST改為PUT
 const routes = require('./routes');
+const usePassport = require('./config/passport');
 require('./config/mongoose')
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -25,6 +26,9 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true })); //才抓得到req
 app.use(methodOverride('_method')) //可將方法由POST改為PUT
+
+usePassport(app)
+
 app.use(routes)
 
 app.listen(PORT, () => {
