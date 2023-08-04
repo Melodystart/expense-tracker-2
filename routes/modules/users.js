@@ -30,8 +30,6 @@ router.post('/register', async (req, res, next) => {
   } catch (error) {
     return next(error)
   }
-
-
 })
 
 module.exports = router

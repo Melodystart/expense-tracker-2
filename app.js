@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const exphbs = require('express-handlebars');
 const hbshelpers = require('handlebars-helpers');
 const multihelpers = hbshelpers();
@@ -15,6 +16,12 @@ const PORT = process.env.PORT || 3000
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs', helpers: multihelpers }))
 app.set('view engine', 'hbs')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use(bodyParser.urlencoded({ extended: true })); //才抓得到req
 app.use(methodOverride('_method')) //可將方法由POST改為PUT
