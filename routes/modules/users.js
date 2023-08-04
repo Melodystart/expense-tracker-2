@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../../models/user')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -36,8 +37,17 @@ router.post('/register', async (req, res, next) => {
       errors.push({ message: '這個 Email 已經註冊過了。' })
       return res.render('register', { errors, ...req.body })
     } else {
-      await User.create({ ...req.body })
-      return res.redirect('/')
+      bcrypt.genSalt(10, async function (err, salt) {
+        bcrypt.hash(password, salt, async function (err, hash) {
+          await User.create({ name, email, password: hash })
+          return res.redirect('/')
+        });
+      });
+
+      // const salt = bcrypt.genSalt(10)
+      // const hash = bcrypt.hash(password, salt)
+      // await User.create({ name, email, password: hash })
+      // return res.redirect('/')
     }
 
   } catch (error) {
