@@ -4,6 +4,7 @@ const Category = require('../category')
 const User = require('../user')
 const SEED_RECORD = require('../../record.json').results
 const db = require('../../config/mongoose')
+const bcrypt = require('bcryptjs')
 
 const SEED_USER = [
   {
@@ -23,9 +24,12 @@ db.once('open', async () => {
   try {
     await Promise.all(
       SEED_USER.map(async (user) => {
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(user.password, salt)
         const createdUser = await User.create({
-          ...user
+          ...user, password: hash
         })
+
 
         await Promise.all(
           user.recordLst.map(async (recordNum) => {
@@ -43,8 +47,8 @@ db.once('open', async () => {
     )
     console.log('users and records created!')
 
-  } catch (error) {
-    next(error)
+  } catch {
+    console.error
   }
   db.close()
 })

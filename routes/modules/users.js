@@ -36,18 +36,12 @@ router.post('/register', async (req, res, next) => {
     if (user) {
       errors.push({ message: '這個 Email 已經註冊過了。' })
       return res.render('register', { errors, ...req.body })
-    } else {
-      bcrypt.genSalt(10, async function (err, salt) {
-        bcrypt.hash(password, salt, async function (err, hash) {
-          await User.create({ name, email, password: hash })
-          return res.redirect('/')
-        });
-      });
 
-      // const salt = bcrypt.genSalt(10)
-      // const hash = bcrypt.hash(password, salt)
-      // await User.create({ name, email, password: hash })
-      // return res.redirect('/')
+    } else {
+      const salt = await bcrypt.genSalt(10)
+      const hash = await bcrypt.hash(password, salt)
+      await User.create({ ...req.body, password: hash })
+      return res.redirect('/')
     }
 
   } catch (error) {
