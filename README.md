@@ -9,20 +9,20 @@
 git clone https://github.com/Melodystart/expense-tracker-2.git
 
 ． cd進入至專案資料夾，並執行以下安裝套件及執行程式指令
-npm install
-npm i express
-npm install -g nodemon
-npm i express-handlebars
-npm install dotenv --save
-npm install method-override
-npm i -g express-generator
-npm install --save handlebars-helpers
-npm install bcryptjs
-npm install express-session
-npm install passport
-npm install passport-facebook
-npm install passport-local
-npm install connect-flash
+npm install   
+npm i express   
+npm install -g nodemon   
+npm i express-handlebars   
+npm install dotenv --save   
+npm install method-override   
+npm i -g express-generator   
+npm install --save handlebars-helpers   
+npm install bcryptjs   
+npm install express-session   
+npm install passport   
+npm install passport-facebook   
+npm install passport-local   
+npm install connect-flash   
 
 ． 請自行新增.env檔案並將以下資訊儲存於檔案中
 MONGODB_URI= "您的MongoDB連線資訊"
@@ -34,16 +34,16 @@ npm run seed
 nodemon app.js
 
 3. 環境建置與需求 (prerequisites)：
-bootstrap: ^5.2.3,
-express: ^4.18.2,
-express-handlebars: ^6.0.7
-mongoose: ^7.0.0
-dotenv: ^16.0.3
-method-override: ^3.0.0
-handlebars-helpers: "^0.10.0"
-bcryptjs: "^2.4.3"
-connect-flash: "^0.1.1"
-express-session: "^1.17.3"
-passport": "^0.6.0"
-passport-facebook: "^3.0.0"
-passport-local: "^1.0.0"
+bootstrap: ^5.2.3,   
+express: ^4.18.2,   
+express-handlebars: ^6.0.7   
+mongoose: ^7.0.0   
+dotenv: ^16.0.3   
+method-override: ^3.0.0   
+handlebars-helpers: "^0.10.0"   
+bcryptjs: "^2.4.3"   
+connect-flash: "^0.1.1"   
+express-session: "^1.17.3"   
+passport": "^0.6.0"   
+passport-facebook: "^3.0.0"   
+passport-local: "^1.0.0"   
