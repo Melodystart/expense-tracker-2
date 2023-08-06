@@ -1,10 +1,10 @@
-功能描述 (features)：
+1. 功能描述 (features)：
 使用者可以註冊帳號並登入/登出，註冊資料：名字、email、密碼、確認密碼
 使用者可以瀏覽自己的全部記帳並加總金額
 使用者可以選擇排序記帳的方式 使用者可以選擇分類篩選記帳並加總篩選分類的金額 使用者可以新增記帳(單筆/次)
 使用者可以修改記帳(單筆/次) 使用者可以刪除記帳(單筆/次)
 
-安裝與執行步驟 (installation and execution)：
+2. 安裝與執行步驟 (installation and execution)：
 ． 將本專案clone至本機位置
 git clone https://github.com/Melodystart/expense-tracker-2.git
 
@@ -33,7 +33,7 @@ npm run seed
 ． 啟動伺服器 (執行程式指令)
 nodemon app.js
 
-環境建置與需求 (prerequisites)：
+3. 環境建置與需求 (prerequisites)：
 bootstrap: ^5.2.3,
 express: ^4.18.2,
 express-handlebars: ^6.0.7
