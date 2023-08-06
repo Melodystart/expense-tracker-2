@@ -8,7 +8,7 @@
 ． 將本專案clone至本機位置
 git clone https://github.com/Melodystart/expense-tracker-2.git
 
-． cd進入至專案資料夾，並執行以下安裝套件及執行程式指令
+． cd進入至專案資料夾，並執行以下安裝套件及執行程式指令   
 npm install   
 npm i express   
 npm install -g nodemon   
@@ -24,7 +24,7 @@ npm install passport-facebook
 npm install passport-local   
 npm install connect-flash   
 
-． 請自行新增.env檔案並將以下資訊儲存於檔案中
+． 請自行新增.env檔案並將以下資訊儲存於檔案中   
 MONGODB_URI= "您的MongoDB連線資訊"
 
 ． 載入種子資料(執行程式指令)
