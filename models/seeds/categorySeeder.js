@@ -23,8 +23,8 @@ db.once('open', async () => {
     ))
     console.log('categories created!')
 
-  } catch {
-    console.error
+  } catch (error) {
+    console.log(error)
   }
   db.close()
 })

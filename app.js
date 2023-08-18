@@ -19,7 +19,13 @@ require('./config/mongoose')
 const app = express()
 const PORT = process.env.PORT
 
-app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs', helpers: multihelpers }))
+app.engine('hbs', exphbs.engine({
+  defaultLayout: 'main', extname: '.hbs', helpers: {
+    multihelpers,
+    getKey(obj, property) { return Object.keys(obj)[property]; },
+    getValue(obj, property) { return Object.values(obj)[property]; }
+  }
+}))
 app.set('view engine', 'hbs')
 
 app.use(session({

@@ -47,8 +47,8 @@ db.once('open', async () => {
     )
     console.log('users and records created!')
 
-  } catch {
-    console.error
+  } catch (error) {
+    console.log(error)
   }
   db.close()
 })

@@ -34,7 +34,7 @@ router.get('/:id/edit', async (req, res, next) => {
     const userId = req.user._id
     const record = await Record.findOne({ _id, userId }).populate('categoryId').lean()
 
-    if (!record.length) { console.log("找不到資料") }
+    if (!record) { return next(error) } // 找不到資料
     return res.render('edit', { record })
 
   } catch (error) {
@@ -56,7 +56,7 @@ router.put('/:id', async (req, res, next) => {
     const category = await Category.findOne({ name: categoryName }).lean()
     const record = await Record.findOneAndUpdate({ _id, userId }, { ...req.body, categoryId: category._id }).lean()
 
-    if (!record.length) { console.log("找不到資料") }
+    if (!record) { return next(error) } // 找不到資料
     return res.redirect('/')
 
   } catch (error) {
@@ -70,7 +70,7 @@ router.delete('/:id', async (req, res, next) => {
     const userId = req.user._id
     const record = await Record.findOneAndDelete({ _id, userId })
 
-    if (!record.length) { console.log("找不到資料") }
+    if (!record) { return next(error) } // 找不到資料
     return res.redirect('/')
 
   } catch (error) {
